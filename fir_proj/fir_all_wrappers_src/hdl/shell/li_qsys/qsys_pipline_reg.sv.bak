@@ -1,0 +1,34 @@
+module qsys_pipline_reg #(
+	/* Data Width:
+	 * Data input/output bits */
+	parameter DATA_WIDTH = 0
+
+)(
+/* Note no reset due to S10 inaccessibility,
+   must flush the pipline and initialize registers */
+	input 									clock,
+
+	// Pearl Signals
+	input		[DATA_WIDTH-1:0]	i_data,
+	output	[DATA_WIDTH-1:0]	o_data,
+
+	// Control Signals
+	input										i_valid,
+	input										i_ready,
+	output									o_valid,
+	output									o_ready
+);
+
+//	initial begin
+//		o_data = {(DATA_WIDTH){1'b0}};
+//		o_valid = 0;
+//		o_increment_count = 0;
+//	end
+
+		always@(posedge clock) begin
+			o_data <= i_data;
+			o_valid <= i_valid;
+			o_ready <= i_ready;
+		end
+
+endmodule

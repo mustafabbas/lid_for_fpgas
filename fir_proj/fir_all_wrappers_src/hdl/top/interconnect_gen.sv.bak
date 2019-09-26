@@ -1,0 +1,137 @@
+interconnect_gen  #(
+	/* Data Width:
+	 * Data input/output bits */
+	parameter DATA_WIDTH = 0,
+
+	// Latency insenstive type ("non_li", "li_credit", "li_carloni" or "li_qsys")
+	parameter INTERCONNECT_TYPE = "",
+
+	// Number of pipline stages
+	// whether it be LI Relay Stations or regular Registers.
+	parameter N_STAGES = 0,
+)(
+	input clock,
+	input reset,
+
+	/* Sender Signals */
+	input i_data,
+	input i_valid,
+	output o_li_feedback,
+
+	/* Receiver Signals */
+	output o_data,
+	output o_valid,
+	input i_li_feedback
+);
+
+
+	genvar i;
+	generate
+
+		// No registers just a passthrough
+		if(N_STAGES == 0) begin: PASSTHROUGH
+			assign o_data = i_data;
+			assign o_valid = i_valid;
+			assign o_increment_count = i_increment_count;
+		end
+
+		else begin
+
+			// Generate the registers
+			for(i=0; i < N_STAGES; i++) begin : PIPELINE_REGS
+
+				// Interconnect Regs
+				reg	[DATA_WIDTH-1:0]	r_data;
+				reg							r_valid;
+				reg							r_increment_count;
+
+//				initial begin
+//					r_data = {(DATA_WIDTH){1'b0}};
+//					r_valid = 0;
+//					r_increment_count = 0;
+//				end
+
+				if (i == 0) begin: ASSIGN_INPUTS
+					always@(posedge clock) begin
+						r_data <= i_data;
+						r_valid <= i_valid;
+						r_increment_count <= i_increment_count;
+					end
+
+				end else begin: WIRE_PIPELINE_REGS
+					always@(posedge clock) begin
+						r_data <= PIPELINE_REGS[i-1].r_data;
+						r_valid <= PIPELINE_REGS[i-1].r_valid;
+						r_increment_count <= PIPELINE_REGS[i-1].r_increment_count;
+					end
+				end
+
+			end
+
+			// Assign output
+			assign o_data = PIPELINE_REGS[N_STAGES-1].r_data;
+			assign o_valid = PIPELINE_REGS[N_STAGES-1].r_valid;
+			assign o_increment_count = PIPELINE_REGS[N_STAGES-1].r_increment_count;
+
+		end
+	endgenerate
+
+	if (INTERCONNECT_TYPE  == "credit") begin
+
+		credit_interconnect_regs #(
+			.DATA_WIDTH(DATA_WIDTH),
+			.N_STAGES(N_STAGES)
+		) credit_interconnect_regs_inst(
+			.clock(clock),
+			.i_valid(FIR[i-1].w_valid),
+			.i_data(FIR[i-1].w_data),
+			.o_increment_count(FIR[i-1].w_increment_count),
+			.o_valid(w_pipelined_valid),
+			.o_data(w_pipelined_data),
+			.i_increment_count(w_pipelined_increment_count)
+		);
+
+	end else if (INTERCONNECT_TYPE == "qsys") begin
+
+		qsys_pipline_regs #(
+			.DATA_WIDTH(DATA_WIDTH),
+			.N_STAGES(N_STAGES)
+		) qsys_pipline_regs_inst(
+			.clock(clock),
+			.i_valid(FIR[i-1].w_valid),
+			.i_data(FIR[i-1].w_data),
+			.o_ready(FIR[i-1].w_ready),
+			.o_valid(w_pipelined_valid),
+			.o_data(w_pipelined_data),
+			.i_ready(w_pipelined_ready)
+		);
+
+	end else if (INTERCONNECT_TYPE == "carloni")
+
+		li_relay_stations #(
+			.WIDTH(DATA_WIDTH), 
+			.N_RELAY_STATIONS(N_STAGES)
+		) rs_result (
+			.clk(clock),
+			.reset(reset),
+			.in_link(fir_result_link),
+			.out_link(rs_result_link)
+		);
+
+	end else if (INTERCONNECT_TYPE = "non_li")
+
+		pipeline_regs #(
+			.WIDTH(DATA_WIDTH-1),
+			.N_STAGES(N_STAGES)
+		) pipeline_regs_inst (
+			.clk(clock),
+			.reset(reset),
+			.i_valid(w_fir_result_valid),
+			.i_data(w_fir_result),
+			.o_valid(w_fir_result_valid_pipelined),
+			.o_data(w_fir_result_pipelined)
+		);
+
+	end
+
+endmodule

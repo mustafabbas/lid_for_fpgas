@@ -1,0 +1,18 @@
+module wrapper_gen  #(
+	parameter DATA_WIDTH = 17,
+	parameter N_STAGES 	= 1		//Pipline Stages
+)(
+/* Note no reset due to S10 inaccessibility,
+   must flush the pipline and initialize registers */
+	input 									clock,
+
+	// Pearl Signals
+	input		[DATA_WIDTH-1:0]	i_data,
+	output	[DATA_WIDTH-1:0]	o_data,
+
+	// Control Signals
+	input										i_valid,
+	input										i_increment_count,
+	output									o_valid,
+	output									o_increment_count
+);

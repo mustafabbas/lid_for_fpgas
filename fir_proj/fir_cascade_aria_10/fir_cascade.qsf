@@ -1,0 +1,129 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, the Altera Quartus Prime License Agreement,
+# the Altera MegaCore Function License Agreement, or other 
+# applicable license agreement, including, without limitation, 
+# that your use is for the sole purpose of programming logic 
+# devices manufactured by Altera and sold by Altera or its 
+# authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus Prime
+# Version 16.0.0 Build 211 04/27/2016 SJ Standard Edition
+# Date created = 16:37:31  July 20, 2017
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		fir_cascade_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus Prime software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Arria 10"
+set_global_assignment -name DEVICE 10AS066H1F34E1SG
+set_global_assignment -name TOP_LEVEL_ENTITY fir_cascade
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 4
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (SystemVerilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "ALL PATHS"
+set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING ON
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name NUM_PARALLEL_PROCESSORS 1
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name OPTIMIZE_TIMING "NORMAL COMPILATION"
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS ON
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_instance_assignment -name VIRTUAL_PIN ON -to i_*
+set_instance_assignment -name VIRTUAL_PIN ON -to o_*
+set_instance_assignment -name VIRTUAL_PIN ON -to reset
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SEED 3
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name VERILOG_FILE ip/fir/hdl/dsp_2mac_no_chainout.v
+set_global_assignment -name VERILOG_FILE ip/fir/hdl/dsp_2mac_no_chainin.v
+set_global_assignment -name VERILOG_FILE ip/fir/hdl/dsp2_mac.v
+set_global_assignment -name SDC_FILE fir_cascade.sdc
+set_global_assignment -name VERILOG_FILE ip/fir/hdl/input_adder/input_adder.v
+set_global_assignment -name VERILOG_FILE ip/fir/hdl/output_adder/output_adder.v
+set_global_assignment -name SYSTEMVERILOG_FILE ip/fir/hdl/adder_tree.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/fifo_free_word_count_dpram_wrapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/fifo_almost_full_dpram_wrapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_fir_wrapper_gen.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_fir_wrapper_pipelined_gen.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_fir_wrapper_opt.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_relay_stations.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_relay_station.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/scdpram_infer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/fifo.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/fifo_dpram_wrapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_fir_wrapper.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_interface.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/lid/li_input_buffer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hdl/fir_cascade_tb.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ip/fir/hdl/fir.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hdl/fir_cascade.sv
+set_global_assignment -name SYSTEMVERILOG_FILE hdl/pipeline_regs.sv
+set_global_assignment -name LAST_QUARTUS_VERSION "17.0.0 Standard Edition"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id "li_fir_wrapper_pipelined_gen:FIRs_0__LI_FIRs_FIRST_STAGE_VALID_fir_inst"
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT -section_id "li_fir_wrapper_pipelined_gen:FIRs_0__LI_FIRs_FIRST_STAGE_VALID_fir_inst"
+set_global_assignment -name PARTITION_COLOR 39423 -section_id "li_fir_wrapper_pipelined_gen:FIRs_0__LI_FIRs_FIRST_STAGE_VALID_fir_inst"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id "li_fir_wrapper_pipelined_gen:FIRs_1__LI_FIRs_LATER_STAGE_VALID_fir_inst"
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT -section_id "li_fir_wrapper_pipelined_gen:FIRs_1__LI_FIRs_LATER_STAGE_VALID_fir_inst"
+set_global_assignment -name PARTITION_COLOR 52377 -section_id "li_fir_wrapper_pipelined_gen:FIRs_1__LI_FIRs_LATER_STAGE_VALID_fir_inst"
+set_global_assignment -name LL_ENABLED ON -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_STATE LOCKED -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_RESERVED OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_CORE_ONLY OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_PR_REGION OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_ROUTING_REGION_EXPANSION_SIZE 2147483647 -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_WIDTH 25 -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_HEIGHT 13 -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_ORIGIN X124_Y209 -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_instance_assignment -name LL_MEMBER_OF "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst" -to "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst" -section_id "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_ENABLED ON -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_STATE LOCKED -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_RESERVED OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_CORE_ONLY OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_PR_REGION OFF -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_ROUTING_REGION_EXPANSION_SIZE 2147483647 -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_WIDTH 34 -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_HEIGHT 13 -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_global_assignment -name LL_ORIGIN X1_Y1 -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+set_instance_assignment -name LL_MEMBER_OF "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst" -to "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst" -section_id "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst"
+
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY firs0_bde81 -to "li_fir_wrapper_pipelined_gen:FIRs[0].LI_FIRs.FIRST_STAGE_VALID.fir_inst" -section_id "li_fir_wrapper_pipelined_gen:FIRs_0__LI_FIRs_FIRST_STAGE_VALID_fir_inst"
+set_instance_assignment -name PARTITION_HIERARCHY firs1_da6e1 -to "li_fir_wrapper_pipelined_gen:FIRs[1].LI_FIRs.LATER_STAGE_VALID.fir_inst" -section_id "li_fir_wrapper_pipelined_gen:FIRs_1__LI_FIRs_LATER_STAGE_VALID_fir_inst"

@@ -1,0 +1,93 @@
+module credit_wrapper #(
+	// For input/output bits
+	parameter	DATA_WIDTH	= 17,
+
+	// For FIFO
+	parameter	FIFO_ADDR	= 3,
+	parameter	FIFO_TYPE	= "",
+
+	// For Counter
+	parameter	N_CREDITS	= 2**FIFO_ADDR
+)(
+	input 									clock,
+	input 									reset,
+	
+	// Pearl Signals
+	input signed 	[DATA_WIDTH-1:0]	i_data,
+	output signed 	[DATA_WIDTH-1:0]	o_data,
+
+	// Counter Control Signals
+	input 									i_increment_count,
+	input										i_valid,
+	output									o_increment_count,
+	output									o_valid
+);
+
+	//Receiver side singals
+	wire signed [DATA_WIDTH-1:0] w_FIFO_data;
+	wire w_receiver_ready;
+	wire w_FIFO_empty; 
+	wire w_FIFO_valid;
+
+	//Sender side signals
+	wire w_pearl_enable;
+
+	/*
+	 * FIFO + Control Logic
+	 */
+	fifo #(
+		.DATA_WIDTH(DATA_WIDTH),
+		.FIFO_ADDR(FIFO_ADDR),
+		.FIFO_TYPE(FIFO_TYPE)
+	) fifo_inst (
+		.clock(clock),
+		.reset(reset),
+		.i_data(i_data),
+		.o_data(w_FIFO_data),
+		.i_enq(i_valid),
+		.i_deq(w_receiver_ready),
+		.o_empty(w_FIFO_empty)
+	);
+
+	fifo_logic #(
+		.DATA_WIDTH(DATA_WIDTH)
+	) fifo_logic_inst (
+		.clock(clock),
+		.reset(reset),
+		.o_increment_count(o_increment_count),
+		.i_credit_ready(w_pearl_enable),
+		.i_empty(w_FIFO_empty),
+		.o_read_request(w_receiver_ready),
+		.o_valid(w_FIFO_valid)
+	);
+
+	/*
+	 * The Pearl
+	 */
+	fir #( 
+		.dw(DATA_WIDTH-1)
+	) fir_inst (
+		.clk(clock),
+		.reset(reset),
+		.clk_ena(w_pearl_enable && w_FIFO_valid),
+		.i_valid(w_FIFO_data[0]),
+		.i_in(w_FIFO_data[DATA_WIDTH-1:1]),
+		.o_valid(o_data[0]),
+		.o_out(o_data[DATA_WIDTH-1:1])
+	);
+
+	/*
+	 * Counter
+	 */
+	credit_counter #(
+		.N_CREDITS(N_CREDITS)
+	) credit_counter_inst (
+		.clock(clock),
+		.reset(reset),
+		.i_increment_count(i_increment_count),
+		.o_ready(w_pearl_enable),
+		.i_fifo_empty(w_FIFO_empty),
+		.o_valid(o_valid)
+	);
+
+endmodule
